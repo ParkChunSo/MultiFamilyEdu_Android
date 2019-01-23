@@ -31,13 +31,11 @@ public class DecodeWaveFileController {
     private int mSampleRate;
     private int mChannels;
     private int MAXGAIN = 0;
-    // Member variables used during initialization
     private int mOffset;
 
     public int[] getFrameGains() {
         return mFrameGains;
     }//개별 Gain의 각각의 값
-
 
     public void ReadFile(File inputFile)
             throws java.io.FileNotFoundException,

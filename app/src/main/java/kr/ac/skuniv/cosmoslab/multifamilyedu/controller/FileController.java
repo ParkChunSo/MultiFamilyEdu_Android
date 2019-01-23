@@ -5,7 +5,6 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,6 +13,7 @@ import java.io.OutputStream;
 
 import kr.ac.skuniv.cosmoslab.multifamilyedu.model.entity.UserModel;
 import kr.ac.skuniv.cosmoslab.multifamilyedu.network.NetRetrofit;
+import lombok.Getter;
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -27,10 +27,12 @@ import retrofit2.Response;
  * <p>
  * Description:
  */
+@Getter
 public class FileController {
     private static final String TAG = "FileController";
     private static final String FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MultiFamily";
     private UserModel userModel;
+    private boolean response;
     Context context;
 
     public FileController(Context context) {
@@ -52,7 +54,7 @@ public class FileController {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     String fileName = getFileName(response.headers());
-                    boolean writtenToDisk = writeFileToDisk(response.body(), userModel.getLevel(), fileName);
+                    boolean writtenToDisk = writeFileToDisk(response.body(), fileName);
 
                     if (writtenToDisk) {
                         Toast.makeText(context.getApplicationContext(), "파일 다운로드 성공", Toast.LENGTH_LONG).show();
@@ -73,7 +75,7 @@ public class FileController {
         });
     }
 
-    //파일이름으로 파일 다운로드하는 메소드
+    /*//파일이름으로 파일 다운로드하는 메소드
     public void downloadFileByFileName(final String fileName) {
         Call<ResponseBody> res = NetRetrofit.getInstance().getNetRetrofitInterface().downloadFileByFileName("1", fileName);
         Log.i(TAG, "start");
@@ -91,7 +93,6 @@ public class FileController {
                     }
                 } else {
                     Toast.makeText(context.getApplicationContext(), "파일 다운로드 실패", Toast.LENGTH_LONG).show();
-
                 }
             }
 
@@ -101,28 +102,60 @@ public class FileController {
                 Toast.makeText(context.getApplicationContext(), "인터넷 연결 실패", Toast.LENGTH_LONG).show();
             }
         });
+    }*/
+
+    //파일이름으로 파일 다운로드하는 메소드
+    public void  downloadFileByFileName(final String fileName) {
+        response = false;
+        final Call<ResponseBody> res = NetRetrofit.getInstance().getNetRetrofitInterface().downloadFileByFileName("1",fileName);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Response<ResponseBody> respon = res.execute();
+                    ResponseBody body;
+                    if (respon.raw().code() == 200) {
+                        body = respon.body();
+                    } else {
+                        Log.d(TAG, "파일 다운 실패");
+                        body = null;
+                    }
+
+                    boolean writtenToDisk = writeFileToDisk(body, fileName);
+                    if (writtenToDisk) {
+                        response = true;
+                    } else {
+                        response = false;
+                    }
+                } catch (Exception e) {
+                    response = false;
+                }
+            }
+        }).start();
+
+        try {
+            Thread.sleep(1500);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //파일 디렉토리 만드는 메소드
     public void createFilePath() {
-        File originalDir1 = new File(FILE_PATH + "/ORIGINAL" + "/1");
-        File originalDir2 = new File(FILE_PATH + "/ORIGINAL" + "/2");
-        File recodeDir1 = new File(FILE_PATH + "/RECORD" + "/1");
-        File recodeDir2 = new File(FILE_PATH + "/RECORD" + "/2");
+        File originalDir = new File(FILE_PATH + "/ORIGINAL");
+        File recodeDir = new File(FILE_PATH + "/RECORD");
         File ImageDir = new File(FILE_PATH + "/IMAGE");
 
-        if (!originalDir1.exists() || !recodeDir1.exists() || !ImageDir.exists()) {
-            originalDir1.mkdirs();
-            originalDir2.mkdirs();
-            recodeDir1.mkdirs();
-            recodeDir2.mkdirs();
+        if (!originalDir.exists() || !recodeDir.exists() || !ImageDir.exists()) {
+            originalDir.mkdirs();
+            recodeDir.mkdirs();
             ImageDir.mkdir();
         }
     }
 
     //디렉토리에 파일있는지 확인하는 메소드
-    public boolean confirmFile(String level, String fileName) {
-        File file = new File(FILE_PATH + "/ORIGINAL/" + level + "/" + fileName);
+    public boolean confirmFile(String fileName) {
+        File file = new File(FILE_PATH + "/ORIGINAL/" + fileName);
         if (!file.exists()) {
             return false;
         } else {
@@ -141,10 +174,10 @@ public class FileController {
     }
 
     //파일 저장하는 메소드
-    private boolean writeFileToDisk(ResponseBody responseBody, String level, String fileName) {
+    private boolean writeFileToDisk(ResponseBody responseBody, String fileName) {
         try {
             // todo change the file location/name according to your needs
-            File futureStudioIconFile = new File(FILE_PATH + "/ORIGINAL/" + level + File.separator + fileName);
+            File futureStudioIconFile = new File(FILE_PATH + "/ORIGINAL/" + File.separator + fileName);
 
             InputStream inputStream = null;
             OutputStream outputStream = null;

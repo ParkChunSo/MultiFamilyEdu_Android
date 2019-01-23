@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,7 @@ import lombok.Setter;
  * Description:
  */
 @Getter
-@Setter
+@Setter @Builder
 public class UserModel implements Serializable {
     @SerializedName("userid")
     private String id;

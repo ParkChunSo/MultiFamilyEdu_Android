@@ -1,10 +1,11 @@
 package kr.ac.skuniv.cosmoslab.multifamilyedu.network;
 
 
-import java.util.List;
+import java.util.Map;
 
-import kr.ac.skuniv.cosmoslab.multifamilyedu.model.entity.UserModel;
 import kr.ac.skuniv.cosmoslab.multifamilyedu.model.dto.SignupDto;
+import kr.ac.skuniv.cosmoslab.multifamilyedu.model.dto.WordInfoDto;
+import kr.ac.skuniv.cosmoslab.multifamilyedu.model.entity.UserModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -19,6 +20,7 @@ import retrofit2.http.Path;
  * Class: NetRetrofitInterface
  * Created by youngjun on 2018-11-27.
  * Description:
+ *
  * @Query : 서버에 보낼값  -> localhost?email=eml&password=pwd
  * @Path : 서버에 보낼값  -> localhost/{eml}/{pwd}
  * Call <Object> : 서버로 부터 받을 자료형
@@ -38,6 +40,14 @@ public interface NetRetrofitInterface {
     @GET("downloads/level/{level}/filename/{filename}")
     Call<ResponseBody> downloadFileByFileName(@Path("level") String level, @Path("filename") String fileName);
 
-    @GET("downloads")
-    Call<List<ResponseBody>> downloadFileLIst();
+    @GET("wordinfo/level/{level}/userid/{userid}")
+    Call<WordInfoDto> getWordListByLevelAndUserid(@Path("level") String level, @Path("userid") String userid);
+
+    @GET("wordinfo/userid/{userid}/wordname/{wordname}")
+    Call<Map<String, String>> setWordPassInfo(@Path("userid") String userid, @Path("wordname") String wordname);
+
+    @GET("/users/{userid}/level/{level}")
+    Call<Void> convertToNextDay(@Path("userid") String userid, @Path("level") String level);
+
+
 }

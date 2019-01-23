@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">MultiFamilyEdu</string>
+    <string name="app_name">해! 말하기</string>
+    <string name="signin_name">해! 로그인</string>
+    <string name="signup_name">해! 회원가입</string>
+    <string name="play_name">해! 녹음</string>
+    <string name="help_name">해! 도움말</string>
 </resources>

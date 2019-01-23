@@ -7,76 +7,11 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-    <LinearLayout
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.3"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="이전점수"
-                android:textSize="20sp"/>
-
-            <TextView
-                android:id="@+id/preScore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:textSize="20sp"/>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/wordTV"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:gravity="center_vertical|center_horizontal"
-            android:text=""
-            android:textSize="45sp" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="최고점수"
-                android:textSize="20sp"/>
-
-            <TextView
-                android:id="@+id/highestScoreTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="20sp"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/waveformImg"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:scaleType="fitXY"
-        app:srcCompat="@android:color/transparent" />
+        android:layout_weight="0.8" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -91,10 +26,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
+            android:background="@drawable/button"
             android:bottomLeftRadius="10dp"
             android:bottomRightRadius="10dp"
             android:drawableTop="@drawable/play"
-            android:text="듣기"
+            android:text="단어듣기"
             android:topLeftRadius="10dp"
             android:topRightRadius="10dp" />
 
@@ -103,10 +39,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
+            android:background="@drawable/button"
             android:bottomLeftRadius="10dp"
             android:bottomRightRadius="10dp"
             android:drawableTop="@drawable/record"
-            android:text="녹음"
+            android:text="녹음하기"
             android:topLeftRadius="10dp"
             android:topRightRadius="10dp" />
 
@@ -115,6 +52,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
+            android:background="@drawable/button"
             android:bottomLeftRadius="10dp"
             android:bottomRightRadius="10dp"
             android:drawableTop="@drawable/record_play"
@@ -127,8 +65,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
+            android:background="@drawable/button"
             android:drawableTop="@drawable/submit"
-            android:text="제출" />
+            android:text="학습현황" />
+
     </LinearLayout>
 
 </LinearLayout>

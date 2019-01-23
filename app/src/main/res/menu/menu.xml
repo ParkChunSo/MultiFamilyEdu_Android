@@ -1,9 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_signout"
-        android:title="Signout"
-        android:icon="@drawable/logout"
-        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_notification1"
+        app:showAsAction="always"
+        android:title="메뉴"
+        android:icon="@drawable/menu">
+        <menu>
+            <item
+                android:id="@+id/action_help"
+                android:icon="@drawable/question"
+                android:title="도움말" />
+            <item
+                android:id="@+id/action_signout"
+                android:icon="@drawable/logout"
+                android:title="로그아웃" />
+        </menu>
+    </item>
 
 </menu>
